@@ -1,0 +1,18 @@
+
+
+services:
+  postgres:
+    image: postgres:15                       # Usa a imagem oficial do PostgreSQL, versão 15
+    container_name: postgres_springboot      # Nome do container (facilita comandos depois)
+    restart: always                          # Se o container cair, ele tenta reiniciar
+    ports:
+      - "5432:5432"                          # Porta do container:porta da sua máquina
+    environment:
+      POSTGRES_DB: u323187073_posmei                 # Nome do banco que será criado
+      POSTGRES_USER: root             # Usuário do banco
+      POSTGRES_PASSWORD: mnd0266         # Senha do usuário
+    volumes:
+      - postgres_data:/var/lib/postgresql/data  # Volume para persistir os dados (mesmo após parar o container)
+
+volumes:
+  postgres_data:                             # Volume nomeado, gerenciado pelo Docker
