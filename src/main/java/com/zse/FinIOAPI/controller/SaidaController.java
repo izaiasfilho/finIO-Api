@@ -13,23 +13,23 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.zse.FinIOAPI.entity.dto.ParcelaSaidaDTO;
-import com.zse.FinIOAPI.service.ParcelaSaidaService;
+import com.zse.FinIOAPI.entity.dto.SaidaDTO;
+import com.zse.FinIOAPI.service.SaidaService;
 
 @RestController
-@RequestMapping("/api/Parcelasaida")
-public class ParcelaSaidaController {
+@RequestMapping("/api/saida")
+public class SaidaController {
 
     @Autowired
-    private ParcelaSaidaService service;
+    private SaidaService service;
 
     @PostMapping
-    public ResponseEntity<ParcelaSaidaDTO> criar(@RequestBody ParcelaSaidaDTO dto) {
+    public ResponseEntity<SaidaDTO> criar(@RequestBody SaidaDTO dto) {
         return ResponseEntity.ok(service.salvar(dto));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ParcelaSaidaDTO> atualizar(@PathVariable Long id, @RequestBody ParcelaSaidaDTO dto) {
+    public ResponseEntity<SaidaDTO> atualizar(@PathVariable Long id, @RequestBody SaidaDTO dto) {
         return ResponseEntity.ok(service.atualizar(id, dto));
     }
 
@@ -40,12 +40,12 @@ public class ParcelaSaidaController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ParcelaSaidaDTO> buscarPorId(@PathVariable Long id) {
+    public ResponseEntity<SaidaDTO> buscarPorId(@PathVariable Long id) {
         return ResponseEntity.ok(service.buscarPorId(id));
     }
 
     @GetMapping
-    public ResponseEntity<List<ParcelaSaidaDTO>> listarTodos() {
+    public ResponseEntity<List<SaidaDTO>> listarTodos() {
         return ResponseEntity.ok(service.listarTodos());
     }
 }
