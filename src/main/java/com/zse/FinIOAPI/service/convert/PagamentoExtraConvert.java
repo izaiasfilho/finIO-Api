@@ -1,9 +1,12 @@
 package com.zse.FinIOAPI.service.convert;
 
+import org.springframework.stereotype.Component;
+
 import com.zse.FinIOAPI.entity.PagamentoExtra;
 import com.zse.FinIOAPI.entity.dto.PagamentoExtraDTO;
 import com.zse.FinIOAPI.service.ConvertDtoParaEntity;
 
+@Component
 public class PagamentoExtraConvert implements ConvertDtoParaEntity<PagamentoExtraDTO, PagamentoExtra>{
 
 	@Override

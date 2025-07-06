@@ -1,9 +1,12 @@
 package com.zse.FinIOAPI.service.convert;
 
+import org.springframework.stereotype.Component;
+
 import com.zse.FinIOAPI.entity.GrupoCategoria;
 import com.zse.FinIOAPI.entity.dto.GrupoCategoriaDTO;
 import com.zse.FinIOAPI.service.ConvertDtoParaEntity;
 
+@Component
 public class GrupoCategoriaConvert implements ConvertDtoParaEntity<GrupoCategoriaDTO, GrupoCategoria> {
 	
 	@Override

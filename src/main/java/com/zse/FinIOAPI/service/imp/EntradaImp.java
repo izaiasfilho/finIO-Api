@@ -1,7 +1,6 @@
 package com.zse.FinIOAPI.service.imp;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,6 +9,7 @@ import com.zse.FinIOAPI.entity.Entrada;
 import com.zse.FinIOAPI.entity.dto.EntradaDTO;
 import com.zse.FinIOAPI.repository.EntradaRepository;
 import com.zse.FinIOAPI.service.EntradaService;
+import com.zse.FinIOAPI.service.convert.EntradaConvert;
 
 @Service
 public class EntradaImp implements EntradaService {
@@ -17,36 +17,12 @@ public class EntradaImp implements EntradaService {
     @Autowired
     private EntradaRepository repository;
 
-    private EntradaDTO toDTO(Entrada entrada) {
-        return EntradaDTO.builder()
-                .id(entrada.getId())
-                .idEmpresa(entrada.getIdEmpresa())
-                .descricao(entrada.getDescricao())
-                .valor(entrada.getValor())
-                .dataPrevista(entrada.getDataPrevista())
-                .dataRecebimento(entrada.getDataRecebimento())
-                .idFrequencia(entrada.getIdFrequencia())
-                .observacao(entrada.getObservacao())
-                .build();
-    }
-
-    private Entrada toEntity(EntradaDTO dto) {
-        return Entrada.builder()
-                .id(dto.getId())
-                .idEmpresa(dto.getIdEmpresa())
-                .descricao(dto.getDescricao())
-                .valor(dto.getValor())
-                .dataPrevista(dto.getDataPrevista())
-                .dataRecebimento(dto.getDataRecebimento())
-                .idFrequencia(dto.getIdFrequencia())
-                .observacao(dto.getObservacao())
-                .build();
-    }
-
+    @Autowired
+    private EntradaConvert convert;
+    
     @Override
     public EntradaDTO salvar(EntradaDTO dto) {
-        Entrada entrada = toEntity(dto);
-        return toDTO(repository.save(entrada));
+    	return convert.convertEntityParaDto(repository.save(convert.convertDtoParaEntity(dto)));
     }
 
     @Override
@@ -61,7 +37,7 @@ public class EntradaImp implements EntradaService {
         existente.setIdFrequencia(dto.getIdFrequencia());
         existente.setObservacao(dto.getObservacao());
 
-        return toDTO(repository.save(existente));
+        return convert.convertEntityParaDto(repository.save(existente));
     }
 
     @Override
@@ -71,15 +47,13 @@ public class EntradaImp implements EntradaService {
 
     @Override
     public EntradaDTO buscarPorId(Long id) {
-        return repository.findById(id).map(this::toDTO)
-                .orElseThrow(() -> new RuntimeException("Entrada não encontrada"));
+    	Entrada entrada = repository.findById(id).orElseThrow();   	
+      return convert.convertEntityParaDto(entrada);
     }
 
     @Override
     public List<EntradaDTO> listarTodos() {
-        return repository.findAll()
-                .stream()
-                .map(this::toDTO)
-                .collect(Collectors.toList());
+    	  	
+        return repository.findAll().stream().map(convert::convertEntityParaDto).toList();        
     }
 }

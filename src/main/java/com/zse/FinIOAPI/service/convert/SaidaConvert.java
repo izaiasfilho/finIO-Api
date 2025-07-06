@@ -1,9 +1,12 @@
 package com.zse.FinIOAPI.service.convert;
 
+import org.springframework.stereotype.Component;
+
 import com.zse.FinIOAPI.entity.Saida;
 import com.zse.FinIOAPI.entity.dto.SaidaDTO;
 import com.zse.FinIOAPI.service.ConvertDtoParaEntity;
 
+@Component
 public class SaidaConvert implements ConvertDtoParaEntity<SaidaDTO, Saida> {
 
 	@Override
