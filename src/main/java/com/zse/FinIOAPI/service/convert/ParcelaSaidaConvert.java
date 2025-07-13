@@ -7,7 +7,7 @@ import com.zse.FinIOAPI.entity.dto.ParcelaSaidaDTO;
 import com.zse.FinIOAPI.service.ConvertDtoParaEntity;
 
 @Component
-public class PacelaSaidaConvert implements ConvertDtoParaEntity<ParcelaSaidaDTO, ParcelaSaida> {
+public class ParcelaSaidaConvert implements ConvertDtoParaEntity<ParcelaSaidaDTO, ParcelaSaida> {
 	
 	@Override
 	public ParcelaSaida convertDtoParaEntity(ParcelaSaidaDTO t) {

@@ -3,8 +3,8 @@ package com.zse.FinIOAPI.repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.zse.FinIOAPI.entity.Saida;
+import com.zse.FinIOAPI.entity.ParcelaSaida;
 
 @Repository
-public interface ParcelaSaidaRepository extends JpaRepository<Saida, Long> {
+public interface ParcelaSaidaRepository extends JpaRepository<ParcelaSaida, Long> {
 }

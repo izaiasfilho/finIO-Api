@@ -2,7 +2,6 @@ package com.zse.FinIOAPI.service.imp;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.zse.FinIOAPI.entity.Entrada;
@@ -11,15 +10,21 @@ import com.zse.FinIOAPI.repository.EntradaRepository;
 import com.zse.FinIOAPI.service.EntradaService;
 import com.zse.FinIOAPI.service.convert.EntradaConvert;
 
+
+
 @Service
 public class EntradaImp implements EntradaService {
 
-    @Autowired
-    private EntradaRepository repository;
-
-    @Autowired
-    private EntradaConvert convert;
+    private final EntradaRepository repository;
+    private final EntradaConvert convert;
     
+    public EntradaImp(EntradaRepository repository,
+    		EntradaConvert convert
+    		) {
+    	this.repository = repository;
+    	this.convert = convert;
+    }
+      
     @Override
     public EntradaDTO salvar(EntradaDTO dto) {
     	return convert.convertEntityParaDto(repository.save(convert.convertDtoParaEntity(dto)));

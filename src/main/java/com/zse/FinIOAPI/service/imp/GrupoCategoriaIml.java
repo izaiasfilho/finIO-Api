@@ -1,56 +1,41 @@
 package com.zse.FinIOAPI.service.imp;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.zse.FinIOAPI.entity.GrupoCategoria;
 import com.zse.FinIOAPI.entity.dto.GrupoCategoriaDTO;
 import com.zse.FinIOAPI.repository.GrupoCategoriaRepository;
 import com.zse.FinIOAPI.service.GrupoCategoriaService;
+import com.zse.FinIOAPI.service.convert.GrupoCategoriaConvert;
 
 @Service
 public class GrupoCategoriaIml implements GrupoCategoriaService {
 
-    @Autowired
-    private GrupoCategoriaRepository repository;
-
-    private GrupoCategoriaDTO toDTO(GrupoCategoria grupo) {
-        return GrupoCategoriaDTO.builder()
-                .id(grupo.getId())
-                .descricao(grupo.getDescricao())
-                .idTipoGrupo(grupo.getIdTipoGrupo())
-                .ativo(grupo.getAtivo())
-                .build();
+    private  final GrupoCategoriaRepository  repository;
+    private  final GrupoCategoriaConvert  convert;
+      
+    public GrupoCategoriaIml( GrupoCategoriaRepository repository, GrupoCategoriaConvert convert ) {   	
+    	this.repository = repository;
+    	this.convert = convert;
     }
-
-    private GrupoCategoria toEntity(GrupoCategoriaDTO dto) {
-        return GrupoCategoria.builder()
-                .id(dto.getId())
-                .descricao(dto.getDescricao())
-                .idTipoGrupo(dto.getIdTipoGrupo())
-                .ativo(dto.getAtivo())
-                .build();
-    }
-
+    
     @Override
     public GrupoCategoriaDTO salvar(GrupoCategoriaDTO dto) {
-        GrupoCategoria grupo = toEntity(dto);
-        return toDTO(repository.save(grupo));
+          return convert.convertEntityParaDto(repository.save(convert.convertDtoParaEntity(dto)));
     }
 
     @Override
-    public GrupoCategoriaDTO atualizar(Long id, GrupoCategoriaDTO dto) {
-        GrupoCategoria existente = repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("GrupoCategoria não encontrado"));
-
-        existente.setDescricao(dto.getDescricao());
-        existente.setIdTipoGrupo(dto.getIdTipoGrupo());
-        existente.setAtivo(dto.getAtivo());
-
-        return toDTO(repository.save(existente));
+    public GrupoCategoriaDTO atualizar(Long id, GrupoCategoriaDTO dto) {       
+    	GrupoCategoria grupoCategoria = repository.findById(id).orElseThrow(
+    			() -> new RuntimeException("Grupo Categoria não encontrado")); 
+    	
+    	grupoCategoria.setDescricao(dto.getDescricao());
+    	grupoCategoria.setIdTipoGrupo(dto.getIdTipoGrupo());
+    	grupoCategoria.setAtivo(dto.getAtivo());
+    	
+    	return convert.convertEntityParaDto(repository.save(grupoCategoria));
     }
 
     @Override
@@ -59,16 +44,14 @@ public class GrupoCategoriaIml implements GrupoCategoriaService {
     }
 
     @Override
-    public GrupoCategoriaDTO buscarPorId(Long id) {
-        return repository.findById(id).map(this::toDTO)
-                .orElseThrow(() -> new RuntimeException("GrupoCategoria não encontrado"));
+    public GrupoCategoriaDTO buscarPorId(Long id) {  	
+    	GrupoCategoria grupoCategoria = repository.findById(id).orElseThrow();   	
+        return convert.convertEntityParaDto(grupoCategoria);
     }
 
     @Override
     public List<GrupoCategoriaDTO> listarTodos() {
-        return repository.findAll()
-                .stream()
-                .map(this::toDTO)
-                .collect(Collectors.toList());
+    	return repository.findAll().stream().map(convert::convertEntityParaDto).toList(); 
     }
+    
 }
