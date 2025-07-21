@@ -1,8 +1,13 @@
 package com.zse.FinIOAPI.entity.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
+
+@NoArgsConstructor
+@AllArgsConstructor
 @Builder
 @Data
 public class GrupoCategoriaDTO {
@@ -13,5 +18,5 @@ public class GrupoCategoriaDTO {
 
     private Long idTipoGrupo;
 
-    private Boolean ativo = true;
+    private Boolean ativo;
 }
