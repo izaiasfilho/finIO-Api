@@ -50,13 +50,14 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 			String senha = String.valueOf(authentication.getCredentials());
 
 			//UsuarioSistema opUsuarioToken = usuarioSistemaService.findByLoginAndSenhaBase64(usuario, senha);
-			if (usuario != null) {
-				List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
-				grantedAuthorities.add(new SimpleGrantedAuthority("ROLE_USER"));
-				authVerificado = new UsernamePasswordAuthenticationToken(usuario, senha, grantedAuthorities);
+			if (usuario.equals(this.username) && senha.equals(this.password)) {
+			    List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
+			    grantedAuthorities.add(new SimpleGrantedAuthority("ROLE_USER"));
+			    authVerificado = new UsernamePasswordAuthenticationToken(usuario, senha, grantedAuthorities);
 			} else {
-				throw new BadCredentialsException("Falha na autênticação, dados inválidos.");
+			    throw new BadCredentialsException("Usuário ou senha inválidos.");
 			}
+
 		} catch (BadCredentialsException e) {
 			throw e;
 		} catch (Exception e) {
